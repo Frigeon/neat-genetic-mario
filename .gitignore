@@ -3,6 +3,10 @@ ExternalTools
 FitnessChangesOnly
 neat-mario.code-workspace
 pool-old
-pool/*.pool
+
+*.old
+*.pool
+*.state
+*.bak
 
 !.gitkeep
