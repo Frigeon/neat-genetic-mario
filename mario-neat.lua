@@ -264,7 +264,7 @@ function containsLink(genes, link)
 end
 
 function pointMutate(genome)
-	local step = genome.mutationRates["Step"]
+	local step = genome.mutationRates["step"]
 	
 	for i=1,#genome.genes do
 		local gene = genome.genes[i]
