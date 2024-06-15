@@ -264,7 +264,7 @@ function containsLink(genes, link)
 end
 
 function pointMutate(genome)
-	local step = genome.mutationRates["step"]
+	local step = genome.mutationRates["Step"]
 	
 	for i=1,#genome.genes do
 		local gene = genome.genes[i]
@@ -708,8 +708,8 @@ function fitnessAlreadyMeasured()
 	return genome.fitness ~= 0
 end
 
-form = forms.newform(500, 500, "Mario-Neat")
-netPicture = forms.pictureBox(form, 5, 250,470, 200)
+form = forms.newform(750, 750, "Mario-Neat")
+netPicture = forms.pictureBox(form, 15, 275, 700, 400)
 
 
 --int forms.pictureBox(int formhandle, [int? x = null], [int? y = null], [int? width = null], [int? height = null]) 
@@ -723,8 +723,8 @@ function displayGenome(genome)
 	for dy=-config.BoxRadius,config.BoxRadius do
 		for dx=-config.BoxRadius,config.BoxRadius do
 			cell = {}
-			cell.x = 50+5*dx
-			cell.y = 70+5*dy
+			cell.x = 50+15*dx
+			cell.y = 70+15*dy
 			cell.value = network.neurons[i].value
 			cells[i] = cell
 			i = i + 1
@@ -738,8 +738,8 @@ function displayGenome(genome)
 	
 	for o = 1,Outputs do
 		cell = {}
-		cell.x = 220
-		cell.y = 30 + 8 * o
+		cell.x = 540
+		cell.y = 30 + 16 * o
 		cell.value = network.neurons[config.NeatConfig.MaxNodes + o].value
 		cells[config.NeatConfig.MaxNodes+o] = cell
 		local color
@@ -749,7 +749,7 @@ function displayGenome(genome)
 			color = 0xFF000000
 		end
 		--gui.drawText(223, 24+8*o, config.ButtonNames[o], color, 9)
-		forms.drawText(netPicture,223, 24+8*o, config.ButtonNames[o], color, 9)
+		forms.drawText(netPicture, 550, 24+16*o, config.ButtonNames[o], color)
 	end
 	
 	for n,neuron in pairs(network.neurons) do
@@ -800,7 +800,7 @@ function displayGenome(genome)
 	end
 	
 	--gui.drawBox(50-config.BoxRadius*5-3,70-config.BoxRadius*5-3,50+config.BoxRadius*5+2,70+config.BoxRadius*5+2,0xFF000000, 0x80808080)
-	forms.drawBox(netPicture, 50-config.BoxRadius*5-3,70-config.BoxRadius*5-3,50+config.BoxRadius*5+2,70+config.BoxRadius*5+2,0xFF000000, 0x80808080)
+	forms.drawBox(netPicture, 50-config.BoxRadius*5-5,50-config.BoxRadius*5-5,50+config.BoxRadius*5+90,50+config.BoxRadius*5+90,0xFF000000, 0x80808080)
 	--oid forms.drawBox(int componenthandle, int x, int y, int x2, int y2, [color? line = null], [color? background = null]) 
 	for n,cell in pairs(cells) do
 		if n > Inputs or cell.value ~= 0 then
@@ -812,7 +812,7 @@ function displayGenome(genome)
 				opacity = 0x50000000
 			end
 			color = opacity + color*0x10000 + color*0x100 + color
-			forms.drawBox(netPicture,cell.x-2,cell.y-2,cell.x+2,cell.y+2,opacity,color)
+			forms.drawBox(netPicture,cell.x-4,cell.y-4,cell.x+4,cell.y+4,opacity,color)
 			--gui.drawBox(cell.x-2,cell.y-2,cell.x+2,cell.y+2,opacity,color)
 		end
 	end
@@ -839,15 +839,15 @@ function displayGenome(genome)
 	--gui.drawBox(49,71,51,78,0x00000000,0x80FF0000)
 	forms.drawBox(netPicture, 49,71,51,78,0x00000000,0x80FF0000)
 	--if forms.ischecked(showMutationRates) then
-		local pos = 100
+		local pos = 175
 		for mutation,rate in pairs(genome.mutationRates) do
 			--gui.drawText(100, pos, mutation .. ": " .. rate, 0xFF000000, 10)
-			forms.drawText(netPicture,100, pos, mutation .. ": " .. rate, 0xFF000000, 10)
+			forms.drawText(netPicture,15, pos, mutation .. ": " .. rate, 0xFF000000, 12)
 			--forms.drawText(pictureBox,400,pos, mutation .. ": " .. rate)
 			
 			--void forms.drawText(int componenthandle, int x, int y, string message, [color? forecolor = null], [color? backcolor = null], [int? fontsize = null], [string fontfamily = null], [string fontstyle = null], [string horizalign = null], [string vertalign = null]) 
 
-			pos = pos + 8
+			pos = pos + 15
 		end
 	--end
 	forms.refresh(netPicture)
@@ -1027,29 +1027,30 @@ writeFile(config.PoolDir.."temp.pool")
 
 event.onexit(onExit)
 
-GenerationLabel = forms.label(form, "Generation: " .. pool.generation, 5, 5)
-SpeciesLabel = forms.label(form, "Species: " .. pool.currentSpecies, 130, 5)
-GenomeLabel = forms.label(form, "Genome: " .. pool.currentGenome, 230, 5)
-MeasuredLabel = forms.label(form, "Measured: " .. "", 330, 5)
+GenerationLabel = forms.label(form, "Generation: " .. pool.generation, 15, 15, 90, 30)
+SpeciesLabel = forms.label(form, "Species: " .. pool.currentSpecies, 150, 15, 90, 30)
+GenomeLabel = forms.label(form, "Genome: " .. pool.currentGenome, 250, 15, 90, 30)
+MeasuredLabel = forms.label(form, "Measured: " .. "", 350, 15, 90, 30)
 
-FitnessLabel = forms.label(form, "Fitness: " .. "", 5, 30)
-MaxLabel = forms.label(form, "Max: " .. "", 130, 30)
+FitnessLabel = forms.label(form, "Fitness: " .. "", 15, 45, 90, 30)
+MaxLabel = forms.label(form, "Max Fitness: " .. "", 150, 45, 90, 30)
 
-CoinsLabel = forms.label(form, "Coins: " .. "", 5, 65)
-ScoreLabel = forms.label(form, "Score: " .. "", 130, 65, 90, 14)
-LivesLabel = forms.label(form, "Lives: " .. "", 130, 80, 90, 14)
-DmgLabel = forms.label(form, "Damage: " .. "", 230, 65, 110, 14)
-PowerUpLabel = forms.label(form, "PowerUp: " .. "", 230, 80, 110, 14)
+CoinsLabel = forms.label(form, "Coins: " .. "", 15, 80, 90, 30)
+ScoreLabel = forms.label(form, "Score: " .. "", 150, 80, 90, 30)
+LivesLabel = forms.label(form, "Lives: " .. "", 150, 110, 90, 30)
+DmgLabel = forms.label(form, "Damage: " .. "", 250, 80, 110, 30)
+PowerUpLabel = forms.label(form, "PowerUp: " .. "", 250, 110, 110, 30)
 
-startButton = forms.button(form, "Start", flipState, 155, 102)
+saveButton = forms.button(form, "Save", savePool, 15, 155, 90, 30)
+loadButton = forms.button(form, "Load", loadPool, 115, 155, 90, 30)
 
-restartButton = forms.button(form, "Restart", initializePool, 155, 102)
-saveButton = forms.button(form, "Save", savePool, 5, 102)
-loadButton = forms.button(form, "Load", loadPool, 80, 102)
-playTopButton = forms.button(form, "Play Top", playTop, 230, 102)
+startButton = forms.button(form, "Start", flipState, 215, 155, 90, 30)
+restartButton = forms.button(form, "Restart", initializePool, 215, 155, 90, 30)
 
-saveLoadFile = forms.textbox(form, config.NeatConfig.Filename .. ".pool", 170, 25, nil, 5, 148)
-saveLoadLabel = forms.label(form, "Save/Load:", 5, 129)
+playTopButton = forms.button(form, "Play Top", playTop, 315, 155, 90, 30)
+
+saveLoadFile = forms.textbox(form, config.NeatConfig.Filename .. ".pool", 500, 30, nil, 15, 230)
+saveLoadLabel = forms.label(form, "Save/Load:", 15, 200)
 spritelist.InitSpriteList()
 spritelist.InitExtSpriteList()
 while true do
