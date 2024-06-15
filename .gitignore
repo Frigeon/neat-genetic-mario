@@ -1,0 +1,8 @@
+.vscode
+ExternalTools
+FitnessChangesOnly
+neat-mario.code-workspace
+pool-old
+pool/*.pool
+
+!.gitkeep
